@@ -39,19 +39,25 @@ class FileValidator:
         return self.fileDIR
 
     def create_closed_caption(self):
+        self.hash = "example-HASH1205425"
+        self.fileDIR = "temp/" + self.hash + ".mp3"
+
         if not os.path.isfile(self.fileDIR):
             raise Exception("The file is not found.")
         try:
             # use autosrt to convert .mp3 to .srt
             command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"' 
             res = os.system(command)  
+            print(res)
             #the method returns the exit status
             if res!= 0:
                 raise Exception("Can't convert the file to closed caption.")
             #delete old file
-            self.remove_file()
+            # self.remove_file()
             return "subtitle_" + self.hash + ".srt"
         except Exception as error:
+            print(error)
+            #create log 
             raise Exception("Can't convert the file to closed caption.")
 
     def format(self):

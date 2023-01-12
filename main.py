@@ -22,14 +22,16 @@ def hello_world():
              'code': 500
         }
     Validator = FileValidator(request.form)
-    try:
-     Validator.has_valid_params()
-     Validator.download_file()
-     Validator.create_closed_caption()
-     data = Validator.format()
-    except Exception as error:
-        return 'Caught this error: ' + repr(error)
-    return data
+    Validator.create_closed_caption()
+    
+    # try:
+    #  Validator.has_valid_params()
+    #  Validator.download_file()
+    #  Validator.create_closed_caption()
+    #  data = Validator.format()
+    # except Exception as error:
+    #     return 'Caught this error: ' + repr(error)
+    return 'Ok'
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
