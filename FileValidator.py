@@ -63,6 +63,10 @@ class FileValidator:
                 return;
             #delete old file
             self.sendError("AutoSRT was executed successfully.")
+            if not os.path.isfile("temp/" + self.hash + ".srt"):
+                self.sendError("The SRT is not found.")
+                return;
+
             # self.remove_file()
             return "subtitle_" + self.hash + ".srt"
         except Exception as error:
