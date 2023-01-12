@@ -55,11 +55,12 @@ class FileValidator:
         try:
             # use autosrt to convert .mp3 to .srt
             command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"' 
-            res = os.system(command)  
-            #the method returns the exit status
-            if res!= 0:
-                 self.sendError(json.dumps(res))
-                 return;
+            try:
+                os.system(command)  
+            except Exception as error:
+                self.sendError(error)
+                self.sendError(json.dumps(error))
+                return;
             #delete old file
             self.sendError("AutoSRT was executed successfully.")
             # self.remove_file()
