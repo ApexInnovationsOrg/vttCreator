@@ -1,5 +1,6 @@
 import os
-
+import requests
+import json
 from flask import Flask
 from flask import request
 from FileValidator import FileValidator
@@ -22,8 +23,15 @@ def hello_world():
              'code': 500
         }
     Validator = FileValidator(request.form)
-    Validator.create_closed_caption()
-    
+
+    try: 
+     Validator.create_closed_caption()
+    except Exception as error:
+       validateError = FileValidator()
+       validateError.sendError(json.dumps(error))
+
+    # sent message to 
+
     # try:
     #  Validator.has_valid_params()
     #  Validator.download_file()

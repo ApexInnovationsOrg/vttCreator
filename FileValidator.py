@@ -38,27 +38,32 @@ class FileValidator:
         self.fileDIR = "temp/" + self.hash + ".mp3"
         return self.fileDIR
 
+    def sendError(self, error):
+        webhook = "https://webhook.site/c3aa25b1-2802-4886-84d4-be6db76fcddf"
+        r = requests.get(url = webhook, params = {
+            error: error
+        })
+        return True;
+
     def create_closed_caption(self):
         self.hash = "example-HASH1205425"
         self.fileDIR = "temp/" + self.hash + ".mp3"
-
+        self.sendError("Variables Setup")
         if not os.path.isfile(self.fileDIR):
-            raise Exception("The file is not found.")
+             self.sendError("The file is not found.")
         try:
             # use autosrt to convert .mp3 to .srt
             command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"' 
             res = os.system(command)  
-            print(res)
             #the method returns the exit status
             if res!= 0:
-                raise Exception("Can't convert the file to closed caption.")
+                 self.sendError(json.dumps(res))
             #delete old file
+            self.sendError("AutoSRT was executed successfully.")
             # self.remove_file()
             return "subtitle_" + self.hash + ".srt"
         except Exception as error:
-            print(error)
-            #create log 
-            raise Exception("Can't convert the file to closed caption.")
+            self.sendError(json.dumps(error))
 
     def format(self):
         self.srtDIR = 'temp/' + self.hash + '.srt'
