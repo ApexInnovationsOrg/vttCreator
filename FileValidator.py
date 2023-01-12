@@ -54,9 +54,17 @@ class FileValidator:
              return;
         try:
             # use autosrt to convert .mp3 to .srt
-            command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"' 
+            command = 'autosrt --help' 
+            testcommand = 'ping google.com'
             try:
-                os.system(command)  
+                testcommand = os.system(testcommand)
+                res = os.system(command)  
+                if testcommand!= 0:
+                    self.sendError("Can't use terminal")
+                    return;
+                if res!= 0:
+                  self.sendError("Can't find autosrt")
+                  return;
             except Exception as error:
                 self.sendError(error)
                 self.sendError(json.dumps(error))
@@ -64,7 +72,7 @@ class FileValidator:
             #delete old file
             self.sendError("AutoSRT was executed successfully.")
             if not os.path.isfile("temp/" + self.hash + ".srt"):
-                self.sendError("The SRT is not found.")
+                self.sendError("The file is not found.")
                 return;
 
             # self.remove_file()
