@@ -46,8 +46,8 @@ class FileValidator:
         return True;
 
     def create_closed_caption(self):
-        self.hash = "example-HASH1205425"
-        self.fileDIR = "https://vttcreator-fsfyczdxia-uc.a.run.app/temp/" + self.hash + ".mp3"
+        self.hash = "example-HASH42069"
+        self.fileDIR = "temp/" + self.hash + ".mp3"
         self.sendError("Variables Setup")
         if not os.path.isfile(self.fileDIR):
              self.sendError("The example file is not found.")
