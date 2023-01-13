@@ -47,7 +47,7 @@ class FileValidator:
 
     def create_closed_caption(self):
 
-        self.hash = "example-HASH42069"
+        self.hash = "example-HASH1205425"
         self.fileDIR = "temp/" + self.hash + ".mp3"
 
         self.sendError("Variables Setup")
@@ -56,17 +56,22 @@ class FileValidator:
              return;
         try:
             # use autosrt to convert .mp3 to .srt
-            command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
-            # try:
-            #     res = os.system(command)
-            #     self.sendError('OS Response:' + str(res))
-            #     if res!= 0:
-            #       self.sendError("Can't find autosrt")
-            #       return;
-            # except Exception as error:
-            #     self.sendError(error)
-            #     self.sendError(json.dumps(error))
-            #     return;
+            #command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
+            command = 'echo "Terminal Executed" '
+            command2 = 'autosrt --help'
+            try:
+                res = os.system(command)
+                command2 = os.system(command2)
+                if res!= 0:
+                    self.sendError("Can't find autosrt")
+                    return;
+                if command2!= 0:
+                    self.sendError("Can't find autosrt")
+                    return;
+            except Exception as error:
+                self.sendError(error)
+                self.sendError(json.dumps(error))
+                return;
             # #delete old file
             # self.sendError("AutoSRT was executed successfully.")
             # if not os.path.isfile("temp/" + self.hash + ".srt"):
