@@ -39,7 +39,7 @@ class FileValidator:
         return self.fileDIR
 
     def sendError(self, error):
-        webhook = "https://webhook.site/c3aa25b1-2802-4886-84d4-be6db76fcddf"
+        webhook = "https://webhook.site/a869c785-daed-4787-9db4-a63e5f56a57b"
         r = requests.get(url = webhook, params = {
             error: error
         })
