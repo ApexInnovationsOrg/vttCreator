@@ -56,17 +56,21 @@ class FileValidator:
              return;
         try:
             # use autosrt to convert .mp3 to .srt
-            #command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
             command = 'echo "Terminal Executed" '
-            command2 = 'autosrt --help'
+            command2 = 'autosrt --version'
+            command3 = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
             try:
                 res = os.system(command)
                 command2 = os.system(command2)
+                command3 = os.system(command3)
                 if res!= 0:
-                    self.sendError("Can't find autosrt")
+                    self.sendError("Command1 Failed")
                     return;
                 if command2!= 0:
-                    self.sendError("Can't find autosrt")
+                    self.sendError("Command2 Failed")
+                    return;
+                if command3!= 0:
+                    self.sendError("Command3 Failed, but it's expected to fail, so it's okay")
                     return;
             except Exception as error:
                 self.sendError(error)
