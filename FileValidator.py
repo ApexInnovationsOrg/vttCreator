@@ -39,6 +39,7 @@ class FileValidator:
         return self.fileDIR
 
     def create_closed_caption(self):
+        self.hash = "example-HASH1205425"
         self.fileDIR = "temp/" + self.hash + ".mp3"
         if not os.path.isfile(self.fileDIR):
              raise Exception("The file is not found.")
