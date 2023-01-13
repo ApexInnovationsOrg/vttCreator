@@ -55,13 +55,8 @@ class FileValidator:
         try:
             # use autosrt to convert .mp3 to .srt
             command = 'autosrt --help' 
-            testcommand = 'ping google.com'
             try:
-                testcommand = os.system(testcommand)
                 res = os.system(command)  
-                if testcommand!= 0:
-                    self.sendError("Can't use terminal")
-                    return;
                 if res!= 0:
                   self.sendError("Can't find autosrt")
                   return;
