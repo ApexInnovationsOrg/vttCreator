@@ -50,13 +50,14 @@ class FileValidator:
         self.fileDIR = "temp/" + self.hash + ".mp3"
         self.sendError("Variables Setup")
         if not os.path.isfile(self.fileDIR):
-             self.sendError("The file is not found.")
+             self.sendError("The example file is not found.")
              return;
         try:
             # use autosrt to convert .mp3 to .srt
             command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
             try:
                 res = os.system(command)  
+                self.sendError('OS Response:' + res)
                 if res!= 0:
                   self.sendError("Can't find autosrt")
                   return;
@@ -67,7 +68,7 @@ class FileValidator:
             #delete old file
             self.sendError("AutoSRT was executed successfully.")
             if not os.path.isfile("temp/" + self.hash + ".srt"):
-                self.sendError("The file is not found.")
+                self.sendError("The SRT file was not found.")
                 return;
 
             # self.remove_file()
