@@ -54,7 +54,7 @@ class FileValidator:
              return;
         try:
             # use autosrt to convert .mp3 to .srt
-            command = 'autosrt --help' 
+            command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
             try:
                 res = os.system(command)  
                 if res!= 0:
