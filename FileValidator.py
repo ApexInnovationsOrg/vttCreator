@@ -38,43 +38,28 @@ class FileValidator:
         self.fileDIR = "temp/" + self.hash + ".mp3"
         return self.fileDIR
 
-    def sendError(self, error):
-        webhook = "https://webhook.site/a869c785-daed-4787-9db4-a63e5f56a57b"
-        r = requests.get(url = webhook, params = {
-            error: error
-        })
-        return True;
-
     def create_closed_caption(self):
-        self.hash = "example-HASH1205425"
         self.fileDIR = "temp/" + self.hash + ".mp3"
-        self.sendError("Variables Setup")
         if not os.path.isfile(self.fileDIR):
-             self.sendError("The file is not found.")
-             return;
+             raise Exception("The file is not found.")
         try:
             # use autosrt to convert .mp3 to .srt
             command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
             try:
                 res = os.system(command)  
                 if res!= 0:
-                  self.sendError("Can't find autosrt")
-                  return;
+                    raise Exception("Can't convert the file to closed caption.")
             except Exception as error:
-                self.sendError(error)
-                self.sendError(json.dumps(error))
-                return;
-            #delete old file
-            self.sendError("AutoSRT was executed successfully.")
+                raise Exception("Can't convert the file to closed caption.")
+            
             if not os.path.isfile("temp/" + self.hash + ".srt"):
-                self.sendError("The file is not found.")
-                return;
+                raise Exception("Converted file not found.")
 
-            # self.remove_file()
+            #delete old file
+            self.remove_file()
             return "subtitle_" + self.hash + ".srt"
         except Exception as error:
-            self.sendError(json.dumps(error))
-            return;
+            raise Exception("Can't convert the file to closed caption.")
 
     def format(self):
         self.srtDIR = 'temp/' + self.hash + '.srt'

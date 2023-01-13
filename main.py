@@ -24,22 +24,14 @@ def hello_world():
         }
     Validator = FileValidator(request.form)
 
-    try: 
+    try:
+     Validator.has_valid_params()
+     Validator.download_file()
      Validator.create_closed_caption()
+     data = Validator.format()
     except Exception as error:
-       validateError = FileValidator()
-       validateError.sendError(json.dumps(error))
-
-    # sent message to 
-
-    # try:
-    #  Validator.has_valid_params()
-    #  Validator.download_file()
-    #  Validator.create_closed_caption()
-    #  data = Validator.format()
-    # except Exception as error:
-    #     return 'Caught this error: ' + repr(error)
-    return 'Ok'
+        return 'Caught this error: ' + repr(error)
+    return data
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
