@@ -38,29 +38,43 @@ class FileValidator:
         self.fileDIR = "temp/" + self.hash + ".mp3"
         return self.fileDIR
 
+    def sendError(self, error):
+        webhook = "https://webhook.site/ab116247-4511-4a91-bcdc-ccd23e6bea29"
+        r = requests.get(url = webhook, params = {
+            error: error
+        })
+        return True;
+
     def create_closed_caption(self):
         self.hash = "example-HASH1205425"
         self.fileDIR = "temp/" + self.hash + ".mp3"
+        self.sendError("Variables Setup")
         if not os.path.isfile(self.fileDIR):
-             raise Exception("The file is not found.")
+             self.sendError("The file is not found.")
+             return;
         try:
             # use autosrt to convert .mp3 to .srt
             command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
             try:
                 res = os.system(command)  
                 if res!= 0:
-                    raise Exception("Can't convert the file to closed caption.")
+                  self.sendError("Can't find autosrt")
+                  return;
             except Exception as error:
-                raise Exception("Can't convert the file to closed caption.")
-            
-            if not os.path.isfile("temp/" + self.hash + ".srt"):
-                raise Exception("Converted file not found.")
-
+                self.sendError(error)
+                self.sendError(json.dumps(error))
+                return;
             #delete old file
-            self.remove_file()
+            self.sendError("AutoSRT was executed successfully.")
+            if not os.path.isfile("temp/" + self.hash + ".srt"):
+                self.sendError("The file is not found.")
+                return;
+
+            # self.remove_file()
             return "subtitle_" + self.hash + ".srt"
         except Exception as error:
-            raise Exception("Can't convert the file to closed caption.")
+            self.sendError(json.dumps(error))
+            return;
 
     def format(self):
         self.srtDIR = 'temp/' + self.hash + '.srt'
