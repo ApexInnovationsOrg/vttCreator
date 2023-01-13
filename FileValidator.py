@@ -77,10 +77,10 @@ class FileValidator:
                 self.sendError(json.dumps(error))
                 return;
             # #delete old file
-            # self.sendError("AutoSRT was executed successfully.")
-            # if not os.path.isfile("temp/" + self.hash + ".srt"):
-            #     self.sendError("The SRT file was not found.")
-            #     return;
+            self.sendError("AutoSRT was executed successfully.")
+            if not os.path.isfile("temp/" + self.hash + ".srt"):
+                self.sendError("The SRT file was not found.")
+                return;
             # self.remove_file()
         except Exception as error:
             self.sendError(json.dumps(error))
@@ -89,7 +89,7 @@ class FileValidator:
     def format(self):
         self.srtDIR = 'temp/' + self.hash + '.srt'
         if not os.path.isfile(self.srtDIR):
-            raise Exception("The file is not found.")
+            raise Exception("The SRT file is not found. - EXC3")
         try:
             # get content from srt and convert to json
             transcript = [dict(startTime = self.offset_seconds(startTime), endTime = self.offset_seconds(endTime), ref = ' '.join(ref.split())) for startTime, endTime, ref in re.findall(self.regex, open(self.srtDIR).read(), re.DOTALL)]
@@ -99,7 +99,7 @@ class FileValidator:
             os.remove(self.srtDIR)
             return json_transcript
         except Exception as error:
-            raise Exception("Can't convert SRT to JSON")
+            raise Exception("Can't convert SRT to JSON - EXC4")
 
     def remove_file(self):
         try:

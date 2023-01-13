@@ -27,11 +27,11 @@ def hello_world():
     #  Validator.has_valid_params()
     #  Validator.download_file()
      Validator.create_closed_caption()
-    #  data = Validator.format()
+     data = Validator.format()
     except Exception as error:
         return 'Caught this error: ' + repr(error)
 
-    return "Ok"
+    return data
 
 
 if __name__ == "__main__":
