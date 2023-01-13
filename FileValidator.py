@@ -39,15 +39,17 @@ class FileValidator:
         return self.fileDIR
 
     def sendError(self, error):
-        webhook = "https://webhook.site/ab116247-4511-4a91-bcdc-ccd23e6bea29"
+        webhook = "https://webhook.site/729bd33a-b191-402c-9598-13c1adb87a71"
         r = requests.get(url = webhook, params = {
             error: error
         })
         return True;
 
     def create_closed_caption(self):
+
         self.hash = "example-HASH42069"
         self.fileDIR = "temp/" + self.hash + ".mp3"
+
         self.sendError("Variables Setup")
         if not os.path.isfile(self.fileDIR):
              self.sendError("The example file is not found.")
@@ -55,24 +57,22 @@ class FileValidator:
         try:
             # use autosrt to convert .mp3 to .srt
             command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
-            try:
-                res = os.system(command)
-                self.sendError('OS Response:' + str(res))
-                if res!= 0:
-                  self.sendError("Can't find autosrt")
-                  return;
-            except Exception as error:
-                self.sendError(error)
-                self.sendError(json.dumps(error))
-                return;
-            #delete old file
-            self.sendError("AutoSRT was executed successfully.")
-            if not os.path.isfile("temp/" + self.hash + ".srt"):
-                self.sendError("The SRT file was not found.")
-                return;
-
+            # try:
+            #     res = os.system(command)
+            #     self.sendError('OS Response:' + str(res))
+            #     if res!= 0:
+            #       self.sendError("Can't find autosrt")
+            #       return;
+            # except Exception as error:
+            #     self.sendError(error)
+            #     self.sendError(json.dumps(error))
+            #     return;
+            # #delete old file
+            # self.sendError("AutoSRT was executed successfully.")
+            # if not os.path.isfile("temp/" + self.hash + ".srt"):
+            #     self.sendError("The SRT file was not found.")
+            #     return;
             # self.remove_file()
-            return "subtitle_" + self.hash + ".srt"
         except Exception as error:
             self.sendError(json.dumps(error))
             return;
