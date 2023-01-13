@@ -56,8 +56,8 @@ class FileValidator:
             # use autosrt to convert .mp3 to .srt
             command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
             try:
-                res = os.system(command)  
-                self.sendError('OS Response:' + res)
+                res = os.system(command)
+                self.sendError('OS Response:' + str(res))
                 if res!= 0:
                   self.sendError("Can't find autosrt")
                   return;
