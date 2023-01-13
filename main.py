@@ -24,8 +24,8 @@ def hello_world():
         }
     Validator = FileValidator(request.form)
     try:
-    #  Validator.has_valid_params()
-    #  Validator.download_file()
+     Validator.has_valid_params()
+     Validator.download_file()
      Validator.create_closed_caption()
      data = Validator.format()
     except Exception as error:
