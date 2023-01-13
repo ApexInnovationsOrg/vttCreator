@@ -5,6 +5,7 @@ import requests
 class FileValidator: 
 
     def __init__(self, params):
+        self.WebHookIssuesURL = "https://webhook.site/729bd33a-b191-402c-9598-13c1adb87a71"
         self.url = params.get('url')
         self.hash = params.get('hash')
         self.regex = r'(?:\d+)\s(\d+:\d+:\d+,\d+) --> (\d+:\d+:\d+,\d+)\s+(.+?)(?:\n\n|$)'
@@ -38,41 +39,33 @@ class FileValidator:
         self.fileDIR = "temp/" + self.hash + ".mp3"
         return self.fileDIR
 
-    def sendError(self, error):
-        webhook = "https://webhook.site/729bd33a-b191-402c-9598-13c1adb87a71"
-        r = requests.get(url = webhook, params = {
+    def reportIssues(self, error):
+        requests.get(url = self.WebHookIssuesURL, params = {
             error: error
         })
         return True;
 
     def create_closed_caption(self):
-
-        self.hash = "example-HASH1205425"
-        self.fileDIR = "temp/" + self.hash + ".mp3"
-
-        self.sendError("Variables Setup")
         if not os.path.isfile(self.fileDIR):
-             self.sendError("The example file is not found.")
+             self.reportIssues("The example file is not found.")
              return;
         try:
             command = 'autosrt -S en -D en ' + '"' + self.fileDIR + '"'
             try:
                 command = os.system(command)
                 if command!= 0:
-                    self.sendError("AutoSRT Failed, but it's expected to fail, so it's okay")
+                    self.reportIssues("AutoSRT Failed, but it's expected to fail, so it's okay")
                     return;
             except Exception as error:
-                self.sendError(error)
-                self.sendError(json.dumps(error))
+                self.reportIssues(error)
+                self.reportIssues(json.dumps(error))
                 return;
-            # #delete old file
-            self.sendError("AutoSRT was executed successfully.")
             if not os.path.isfile("temp/" + self.hash + ".srt"):
-                self.sendError("The SRT file was not found.")
+                self.reportIssues("The SRT file was not found.")
                 return;
-            # self.remove_file()
+            self.remove_file()
         except Exception as error:
-            self.sendError(json.dumps(error))
+            self.reportIssues(json.dumps(error))
             return;
 
     def format(self):

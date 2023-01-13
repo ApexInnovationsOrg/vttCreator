@@ -30,9 +30,7 @@ def hello_world():
      data = Validator.format()
     except Exception as error:
         return 'Caught this error: ' + repr(error)
-
     return data
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
